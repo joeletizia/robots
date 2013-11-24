@@ -5,16 +5,16 @@ class Robot:
     game = None
     def act(self, game):
         self.game = game
-        if self.got_backup() or self.location == rg.CENTER_POINT:
+        if self.space_occupied(self.where_i_should_move()) or self.location == rg.CENTER_POINT:
             enemy_location = self.closest_adjacent_enemy()
             if enemy_location:
-                # print("Robot {0}:Trying to attack. Location:{1}".format(str(self.location), str(enemy_location)))
+                print("Robot {0}:Trying to attack. Location:{1}".format(str(self.location), str(enemy_location)))
                 return self.attack(enemy_location)
             else:
-                # print("Robot {0}:No enemies around; guarding.".format(self.location))
+                print("Robot {0}:No enemies around; guarding.".format(self.location))
                 return self.guard()
         else:
-            # print("Robot {0}: Not in position; moving to {1}.".format(self.location, self.where_i_should_move()))
+            print("Robot {0}: Not in position; moving to {1}.".format(self.location, self.where_i_should_move()))
             return self.move(self.where_i_should_move())
     def closest_adjacent_enemy(self):
         if self.enemy_in_space(self.right()):
@@ -56,12 +56,6 @@ class Robot:
     def distance_to_center(self):
         return (rg.CENTER_POINT[0] - self.location[0],
                 rg.CENTER_POINT[1] - self.location[1])
-    def got_backup(self):
-        next_location = self.where_i_should_move()
-        if self.enemy_in_space(next_location):
-            return False
-        if self.ally_in_space(next_location):
-            return True
     def space_occupied(self, location):
         if self.game.robots.get(location, False):
             return True
