@@ -8,13 +8,13 @@ class Robot:
         if self.space_occupied(self.where_i_should_move()) or self.location == rg.CENTER_POINT:
             enemy_location = self.closest_adjacent_enemy()
             if enemy_location:
-                print("Robot {0}:Trying to attack. Location:{1}".format(str(self.location), str(enemy_location)))
+                # print("Robot {0}:Trying to attack. Location:{1}".format(str(self.location), str(enemy_location)))
                 return self.attack(enemy_location)
             else:
-                print("Robot {0}:No enemies around; guarding.".format(self.location))
+                # print("Robot {0}:No enemies around; guarding.".format(self.location))
                 return self.guard()
         else:
-            print("Robot {0}: Not in position; moving to {1}.".format(self.location, self.where_i_should_move()))
+            # print("Robot {0}: Not in position; moving to {1}.".format(self.location, self.where_i_should_move()))
             return self.move(self.where_i_should_move())
     def closest_adjacent_enemy(self):
         enemies = []

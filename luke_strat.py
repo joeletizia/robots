@@ -8,10 +8,10 @@ class Robot:
         enemy_location = self.closest_adjacent_enemy()
         if 'spawn' in rg.loc_types(self.location):
             destination = rg.locs_around(self.location, filter_out=('invalid', 'obstacle'))[0]
-            print("Robot {0}: In a spawn. Moving to {1}".format(str(self.location), str(destination)))
+            # print("Robot {0}: In a spawn. Moving to {1}".format(str(self.location), str(destination)))
             return self.move(rg.locs_around(self.location, filter_out=('invalid', 'obstacle'))[0])
         elif enemy_location:
-            print("Robot {0}:Trying to attack. Location:{1}".format(str(self.location), str(enemy_location)))
+            # print("Robot {0}:Trying to attack. Location:{1}".format(str(self.location), str(enemy_location)))
             return self.attack(enemy_location)
         else:
             enemies = []
@@ -20,12 +20,15 @@ class Robot:
                     enemies.append(loc)
             enemies.sort()
             if rg.toward(self.location, enemies[0]) == self.location:
-                print("Robot {0}:Don't want to collide; guarding.".format(self.location))
+                # print("Robot {0}:Don't want to collide; guarding.".format(self.location))
                 return self.guard()
             else:
                 destination = rg.toward(self.location, enemies[0])
-                print("Robot {0}: Not in position; moving to {1}.".format(self.location, destination))
-                return self.move(rg.toward(self.location, enemies[0]))
+                # print("Robot {0}: Not in position; moving to {1}.".format(self.location, destination))
+                if 'spawn' not in rg.loc_types(destination):
+                    return self.move(rg.toward(self.location, enemies[0]))
+                else:
+                    return self.move(rg.toward(self.location, rg.CENTER_POINT))
     def guard(self):
         return ['guard']
     def attack(self, location):
@@ -64,4 +67,4 @@ class Robot:
         if self.game.robots.get(location, False):
             return True
         else:
-            False
+            return False
