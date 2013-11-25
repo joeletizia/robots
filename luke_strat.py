@@ -7,9 +7,12 @@ class Robot:
         self.game = game
         enemy_location = self.closest_adjacent_enemy()
         if 'spawn' in rg.loc_types(self.location):
-            destination = rg.locs_around(self.location, filter_out=('invalid', 'obstacle'))[0]
-            # print("Robot {0}: In a spawn. Moving to {1}".format(str(self.location), str(destination)))
-            return self.move(rg.locs_around(self.location, filter_out=('invalid', 'obstacle'))[0])
+            destinations = rg.locs_around(self.location, filter_out=('invalid','obstacle','spawn'))
+            if destinations:
+                # print("Robot {0}: In a spawn. Moving to {1}".format(str(self.location), str(destination)))
+                return self.move(destinations[0])
+            else:
+                return self.guard()
         elif enemy_location:
             # print("Robot {0}:Trying to attack. Location:{1}".format(str(self.location), str(enemy_location)))
             return self.attack(enemy_location)
