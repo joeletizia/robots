@@ -28,7 +28,7 @@ class Robot:
             enemies.append(self.down())
         enemies.sort(key=lambda x: self.game.robots[x].hp)
         if enemies:
-            return enemies[-1]
+            return enemies[0]
         else:
             return None
     def right(self):
