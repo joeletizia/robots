@@ -17,14 +17,20 @@ class Robot:
             print("Robot {0}: Not in position; moving to {1}.".format(self.location, self.where_i_should_move()))
             return self.move(self.where_i_should_move())
     def closest_adjacent_enemy(self):
+        enemies = []
         if self.enemy_in_space(self.right()):
-            return self.right()
+            enemies.append(self.right())
         if self.enemy_in_space(self.left()):
-            return self.left()
+            enemies.append(self.left())
         if self.enemy_in_space(self.up()):
-            return self.up()
+            enemies.append(self.up())
         if self.enemy_in_space(self.down()):
-            return self.down()
+            enemies.append(self.down())
+        enemies.sort(key=lambda x: self.game.robots[x].hp)
+        if enemies:
+            return enemies[-1]
+        else:
+            return None
     def right(self):
         return (self.location[0]+1, self.location[1])
     def left(self):
